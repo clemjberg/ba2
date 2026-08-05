@@ -1,0 +1,13 @@
+test_label,scenario_clients,hz,run_id,sent_messages_total,expected_messages_5m,delivery_ratio_client_sent_vs_expected,errors_total
+load_http-post-long-polling,500,10,run1,1493213,1500000,0.9954753333333334,0
+load_websocket,500,10,run1,1304905,1500000,0.8699366666666667,0
+load_webrtc-reliable-ordered,500,10,run1,1486076,1500000,0.9907173333333332,0
+load_webrtc-unreliable-unordered,500,10,run1,1486711,1500000,0.9911406666666668,0
+load_webrtc-reliable-ordered,500,10,run2,1487184,1500000,0.991456,0
+load_http-post-long-polling,500,10,run2,1494469,1500000,0.9963126666666666,0
+load_websocket,500,10,run2,1494366,1500000,0.996244,0
+load_webrtc-unreliable-unordered,500,10,run2,1487298,1500000,0.991532,0
+load_http-post-long-polling,500,10,run3,1494477,1500000,0.996318,0
+load_websocket,500,10,run3,1494415,1500000,0.9962766666666668,0
+load_webrtc-unreliable-unordered,500,10,run3,1486727,1500000,0.9911513333333334,0
+load_webrtc-reliable-ordered,500,10,run3,1487265,1500000,0.99151,0

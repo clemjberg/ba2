@@ -1,0 +1,13 @@
+timestamp_ms,technology,data_channel_mode,scenario_clients,hz,run_id,sent_messages_total,sent_messages_per_second,errors_total,errors_per_second,clock_offset_ms,file,test_label,scenario_clients_from_file,hz_from_file,run_id_from_file,expected_messages_5m,delivery_ratio_client_sent_vs_expected
+1785398257718,http-post,,500,10,run1,1493213,4999,0,0,1,client_load_http-post-long-polling_500clients_10hz_run1.csv,load_http-post-long-polling,500,10,run1,1500000,0.9954753333333334
+1785398628127,websocket,,500,10,run1,1304905,1681,0,0,-1,client_load_websocket_500clients_10hz_run1.csv,load_websocket,500,10,run1,1500000,0.8699366666666667
+1785399325836,webrtc,reliable-ordered,500,10,run1,1486076,5001,0,0,0,client_load_webrtc-reliable-ordered_500clients_10hz_run1.csv,load_webrtc-reliable-ordered,500,10,run1,1500000,0.9907173333333333
+1785400265035,webrtc,unreliable-unordered,500,10,run1,1486711,4982,0,0,1,client_load_webrtc-unreliable-unordered_500clients_10hz_run1.csv,load_webrtc-unreliable-unordered,500,10,run1,1500000,0.9911406666666667
+1785401489182,webrtc,reliable-ordered,500,10,run2,1487184,5000,0,0,-1,client_load_webrtc-reliable-ordered_500clients_10hz_run2.csv,load_webrtc-reliable-ordered,500,10,run2,1500000,0.991456
+1785402522382,http-post,,500,10,run2,1494469,5004,0,0,-2,client_load_http-post-long-polling_500clients_10hz_run2.csv,load_http-post-long-polling,500,10,run2,1500000,0.9963126666666666
+1785402911925,websocket,,500,10,run2,1494366,4994,0,0,-2,client_load_websocket_500clients_10hz_run2.csv,load_websocket,500,10,run2,1500000,0.996244
+1785403332620,webrtc,unreliable-unordered,500,10,run2,1487298,4999,0,0,-2,client_load_webrtc-unreliable-unordered_500clients_10hz_run2.csv,load_webrtc-unreliable-unordered,500,10,run2,1500000,0.991532
+1785403782518,http-post,,500,10,run3,1494477,4998,0,0,-2,client_load_http-post-long-polling_500clients_10hz_run3.csv,load_http-post-long-polling,500,10,run3,1500000,0.996318
+1785404186717,websocket,,500,10,run3,1494415,5003,0,0,-2,client_load_websocket_500clients_10hz_run3.csv,load_websocket,500,10,run3,1500000,0.9962766666666667
+1785404595033,webrtc,unreliable-unordered,500,10,run3,1486727,5000,0,0,-2,client_load_webrtc-unreliable-unordered_500clients_10hz_run3.csv,load_webrtc-unreliable-unordered,500,10,run3,1500000,0.9911513333333334
+1785405071652,webrtc,reliable-ordered,500,10,run3,1487265,5000,0,0,-2,client_load_webrtc-reliable-ordered_500clients_10hz_run3.csv,load_webrtc-reliable-ordered,500,10,run3,1500000,0.99151
