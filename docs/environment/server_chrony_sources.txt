@@ -1,0 +1,19 @@
+
+  .-- Source mode  '^' = server, '=' = peer, '#' = local clock.
+ / .- Source state '*' = current best, '+' = combined, '-' = not combined,
+| /             'x' = may be in error, '~' = too variable, '?' = unusable.
+||                                                 .- xxxx [ yyyy ] +/- zzzz
+||      Reachability register (octal) -.           |  xxxx = adjusted offset,
+||      Log2(Polling interval) --.      |          |  yyyy = measured offset,
+||                                \     |          |  zzzz = estimated error.
+||                                 |    |           \
+MS Name/IP address         Stratum Poll Reach LastRx Last sample               
+===============================================================================
+^+ prod-ntp-4.ntp1.ps5.cano>     2  10   377   612  -1629us[-1629us] +/-   32ms
+^+ prod-ntp-3.ntp4.ps5.cano>     2   9   377   744  -7787us[-7787us] +/-   38ms
+^- alphyn.canonical.com          2  10   377   728  +6365us[+6365us] +/-   99ms
+^+ prod-ntp-5.ntp1.ps5.cano>     2   9   377   487  +3602us[+3602us] +/-   27ms
+^* ts1.aco.net                   1  10   377   757   -374us[+1518us] +/-   15ms
+^- time.nobody.at                2  10   377   690  -4893us[-4893us] +/-   49ms
+^+ ntp1-vie-at.alwyzon.net       2  10   377   744   +126us[ +126us] +/-   43ms
+^+ fetchmail.mediainvent.at      2   8   377   154  -1595us[-1595us] +/-   34ms

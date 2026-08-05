@@ -1,0 +1,7 @@
+               Local time: Di 2026-07-28 11:44:34 CEST
+           Universal time: Di 2026-07-28 09:44:34 UTC
+                 RTC time: Di 2026-07-28 09:44:34
+                Time zone: Europe/Vienna (CEST, +0200)
+System clock synchronized: yes
+              NTP service: active
+          RTC in local TZ: no
