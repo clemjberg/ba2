@@ -1,0 +1,13 @@
+Reference ID    : C1AB17A3 (ts1.aco.net)
+Stratum         : 2
+Ref time (UTC)  : Tue Jul 28 09:31:28 2026
+System time     : 0.002999673 seconds fast of NTP time
+Last offset     : +0.002749777 seconds
+RMS offset      : 0.001305454 seconds
+Frequency       : 9.722 ppm slow
+Residual freq   : +0.053 ppm
+Skew            : 0.594 ppm
+Root delay      : 0.031204106 seconds
+Root dispersion : 0.003616829 seconds
+Update interval : 1034.7 seconds
+Leap status     : Normal
