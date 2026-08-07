@@ -1,33 +1,33 @@
 # BA2 Live Tracking Benchmark
 
-Dieses Repository enthält den praktischen Teil der Bachelorarbeit zur Performanceanalyse von Kommunikationsmechanismen in einem Live-Tracking-Szenario mit kontinuierlichen Geolokationsdaten.
+This repository contains the practical part of the bachelor's thesis on the performance analysis of communication mechanisms in a live-tracking scenario with continuous geolocation data.
 
-## Ziel
+## Objective
 
-Verglichen werden vier Kommunikationsvarianten für ein Live-Tracking-System:
+Four communication variants for a live-tracking system are compared:
 
-| Variante | GPS-Client → Server | Server → Browser-Dashboard |
+| Variant | GPS Client → Server | Server → Browser Dashboard |
 |---|---|---|
-| HTTP-basierte Baseline | periodischer HTTP POST | HTTP Long Polling |
+| HTTP-based baseline | periodic HTTP POST | HTTP Long Polling |
 | WebSocket | WebSocket | WebSocket Push |
 | WebRTC reliable-ordered | WebRTC DataChannel reliable + ordered | WebRTC DataChannel reliable + ordered |
 | WebRTC unreliable-unordered | WebRTC DataChannel unreliable + unordered | WebRTC DataChannel unreliable + unordered |
 
-Die HTTP-Variante wird bewusst nicht als reines Long Polling bezeichnet. Der Ingestion-Pfad vom simulierten GPS-Client zum Server verwendet periodisches HTTP POST, weil der GPS-Client die Positionsdaten selbst erzeugt und aktiv an den Server sendet. Long Polling wird im HTTP-basierten Dashboard-Pfad eingesetzt, wo der Server neue Positionsupdates push-ähnlich an den Browser liefern kann.
+The HTTP variant is deliberately not referred to as pure Long Polling. The ingestion path from the simulated GPS client to the server uses periodic HTTP POST because the GPS client generates the position data itself and actively sends it to the server. Long Polling is used in the HTTP-based dashboard path, where the server can deliver new position updates to the browser in a push-like manner.
 
-## Testumgebung
+## Test Environment
 
-Verwendet werden zwei Ubuntu-22.04-VMs:
+Two Ubuntu 22.04 VMs are used:
 
-| Rolle | IP-Adresse |
+| Role | IP Address |
 |---|---|
-| Server-VM | `192.168.153.130` |
-| Client-VM | `192.168.153.131` |
-| Browser-Dashboard | Host-Laptop |
+| Server VM | `192.168.153.130` |
+| Client VM | `192.168.153.131` |
+| Browser Dashboard | Host laptop |
 
-Die genaue Hardware- und Softwareumgebung wird mit den Skripten in `scripts/` dokumentiert und in `docs/environment/` gespeichert.
+The exact hardware and software environment is documented using the scripts in `scripts/` and stored in `docs/environment/`.
 
-## Projektstruktur
+## Project Structure
 
 ```text
 ba2-live-tracking/
@@ -66,7 +66,7 @@ ba2-live-tracking/
     └── plots/
 ```
 
-## Installation auf beiden VMs
+## Installation on Both VMs
 
 ```bash
 sudo apt update
@@ -80,7 +80,7 @@ sudo apt install -y \
   net-tools
 ```
 
-Go installieren:
+Install Go:
 
 ```bash
 cd /tmp
@@ -95,9 +95,9 @@ source ~/.bashrc
 go version
 ```
 
-## Zeitsynchronisation
+## Time Synchronization
 
-Auf beiden VMs:
+On both VMs:
 
 ```bash
 sudo systemctl enable --now chrony
@@ -109,27 +109,27 @@ timedatectl
 date +"%Y-%m-%d %H:%M:%S.%N %Z"
 ```
 
-Für die Dokumentation:
+For documentation:
 
-Server-VM:
+Server VM:
 
 ```bash
 scripts/collect_server_environment.sh
 ```
 
-Client-VM:
+Client VM:
 
 ```bash
 scripts/collect_client_environment.sh
 ```
 
-In der Arbeit sollte dokumentiert werden, dass die Systemzeiten mit `chrony` synchronisiert wurden. Messläufe mit systematisch negativer Latenz oder auffälligem Zeitversatz werden verworfen und wiederholt.
+The thesis should document that the system clocks were synchronized using `chrony`. Measurement runs with systematically negative latency or noticeable clock offsets are discarded and repeated.
 
-Zusätzlich schätzt der Client über `/api/clock` einen Offset zur Serverzeit und verwendet diesen Offset für `t0ClientGeneratedMs`.
+In addition, the client estimates an offset relative to the server time via `/api/clock` and uses this offset for `t0ClientGeneratedMs`.
 
 ## Build
 
-### Server-VM
+### Server VM
 
 ```bash
 cd ~/ba2-live-tracking/server
@@ -138,7 +138,7 @@ gofmt -w main.go
 go build -o tracking-server main.go
 ```
 
-### Client-VM
+### Client VM
 
 ```bash
 cd ~/ba2-live-tracking/client
@@ -147,29 +147,29 @@ gofmt -w main.go
 go build -o tracking-client main.go
 ```
 
-## Dashboard-URLs
+## Dashboard URLs
 
-| Variante | Dashboard-URL |
+| Variant | Dashboard URL |
 |---|---|
 | HTTP POST + Long Polling | `http://192.168.153.130:3000/dashboard?mode=long-polling` |
 | WebSocket | `http://192.168.153.130:3000/dashboard?mode=websocket` |
 | WebRTC reliable-ordered | `http://192.168.153.130:3000/dashboard?mode=webrtc&dcMode=reliable-ordered` |
 | WebRTC unreliable-unordered | `http://192.168.153.130:3000/dashboard?mode=webrtc&dcMode=unreliable-unordered` |
 
-## Messpunkte t0 bis t5
+## Measurement Points t0 to t5
 
-Für jedes einzelne Locationupdate werden folgende Zeitpunkte gespeichert:
+The following timestamps are stored for each individual location update:
 
-| Zeitpunkt | Bedeutung | Ort |
+| Timestamp | Meaning | Location |
 |---|---|---|
-| `t0` | GPS-Update erzeugt | Client-VM |
-| `t1` | Server empfängt Update | Server-VM |
-| `t2` | Update für Dashboard verfügbar | Server-VM |
-| `t3` | Browser empfängt Update | Browser |
-| `t4` | DOM wurde aktualisiert | Browser |
-| `t5` | Browser Paint abgeschlossen | Browser |
+| `t0` | GPS update generated | Client VM |
+| `t1` | Server receives update | Server VM |
+| `t2` | Update available for dashboard | Server VM |
+| `t3` | Browser receives update | Browser |
+| `t4` | DOM updated | Browser |
+| `t5` | Browser paint completed | Browser |
 
-Daraus werden berechnet:
+The following metrics are calculated from these timestamps:
 
 ```text
 Network ingestion        = t1 - t0
@@ -182,19 +182,19 @@ End-to-end visualization = t5 - t0
 
 ## Jitter
 
-Jitter wird clientbezogen berechnet:
+Jitter is calculated per client:
 
 ```text
 jitter_ms = abs(latency_current_for_client_i - latency_previous_for_client_i)
 ```
 
-Damit werden keine Latenzwerte unterschiedlicher Clients miteinander vermischt.
+This prevents latency values from different clients from being mixed together.
 
-## Ressourcenmessung
+## Resource Measurement
 
-Die Ressourcenmessung bezieht sich ausschließlich auf den Go-Serverprozess.
+Resource measurement refers exclusively to the Go server process.
 
-Gemessen werden:
+The following metrics are measured:
 
 ```text
 cpu_percent_process
@@ -202,22 +202,22 @@ ram_mb_process
 go_goroutines
 ```
 
-Nicht enthalten sind:
+The following are not included:
 
 ```text
-Client-VM
+Client VM
 Browser
-Host-System
-Virtualisierungs-Overhead
-Netzwerk-Overhead
+Host system
+Virtualization overhead
+Network overhead
 ```
 
-## Haupt-Testmatrix
+## Main Test Matrix
 
-Für die Hauptmessung:
+For the main measurement:
 
 ```text
-Technologien:
+Technologies:
 1. HTTP POST + Long Polling Dashboard
 2. WebSocket
 3. WebRTC reliable-ordered
@@ -228,39 +228,39 @@ Clients:
 100
 500
 
-Frequenz:
+Frequency:
 1 Hz
 
-Dauer:
-5 Minuten
+Duration:
+5 minutes
 
 Runs:
 run1, run2, run3
 ```
 
-Das ergibt:
+This results in:
 
 ```text
-4 × 3 × 3 = 36 Messläufe
+4 × 3 × 3 = 36 measurement runs
 ```
 
-## Ablauf pro Messlauf
+## Procedure per Measurement Run
 
-1. Server mit passendem Modus starten.
-2. Passendes Browser-Dashboard öffnen.
-3. Client-Simulator starten.
-4. 5 Minuten warten.
-5. Client-Ausgabe prüfen.
-6. Server mit `CTRL + C` stoppen.
-7. CSV-Dateien prüfen.
-8. 5–10 Sekunden warten.
-9. Nächsten Lauf starten.
+1. Start the server in the appropriate mode.
+2. Open the corresponding browser dashboard.
+3. Start the client simulator.
+4. Wait 5 minutes.
+5. Check the client output.
+6. Stop the server with `CTRL + C`.
+7. Check the CSV files.
+8. Wait 5–10 seconds.
+9. Start the next run.
 
-Die VMs müssen nicht nach jedem Lauf neugestartet werden. Ein Neustart des Serverprozesses reicht normalerweise aus.
+The VMs do not need to be restarted after every run. Restarting the server process is usually sufficient.
 
-## Rohdaten
+## Raw Data
 
-Nach jedem Lauf entstehen Dateien auf Server- und Client-VM.
+After each run, files are generated on the server and client VMs.
 
 Server:
 
@@ -276,7 +276,7 @@ Client:
 client/metrics/client_load_*.csv
 ```
 
-Für die Auswertung werden sie gesammelt nach:
+For analysis, they are collected in:
 
 ```text
 data/raw/server/ingestion/
@@ -285,9 +285,9 @@ data/raw/server/resources/
 data/raw/client/load/
 ```
 
-## Analyse
+## Analysis
 
-Python-Umgebung erstellen:
+Create the Python environment:
 
 ```bash
 cd ~/ba2-live-tracking
@@ -296,7 +296,7 @@ source .venv/bin/activate
 pip install pandas numpy matplotlib
 ```
 
-Analyse ausführen:
+Run the analysis:
 
 ```bash
 python analysis/analyze_ingestion.py
@@ -307,28 +307,28 @@ python analysis/generate_tables.py
 python analysis/generate_plots.py
 ```
 
-## Cleaning-Regeln
+## Cleaning Rules
 
-Die Skripte verwenden standardmäßig folgende Regeln:
+By default, the scripts use the following rules:
 
-1. Die ersten 10 Sekunden jedes Runs werden als Warm-up entfernt.
-2. Die letzten 5 Sekunden werden entfernt, um Shutdown-Effekte zu reduzieren.
-3. Negative Latenzen werden als Hinweis auf Clock-Probleme behandelt.
-4. Runs mit systematisch negativer Latenz sollten verworfen und wiederholt werden.
-5. Für Visualisierungslatenzen werden nur Nachrichten mit vollständigem `t0` bis `t5` ausgewertet.
-6. Bei WebRTC unreliable-unordered wird Message Loss separat als Delivery Ratio ausgewiesen.
-7. Jitter wird pro Client berechnet.
+1. The first 10 seconds of each run are removed as warm-up.
+2. The final 5 seconds are removed to reduce shutdown effects.
+3. Negative latencies are treated as an indication of clock synchronization issues.
+4. Runs with systematically negative latency should be discarded and repeated.
+5. For visualization latency, only messages with complete `t0` to `t5` timestamps are evaluated.
+6. For WebRTC unreliable-unordered, message loss is reported separately as the delivery ratio.
+7. Jitter is calculated per client.
 
-## Ergebnisdateien
+## Result Files
 
-Die finalen Tabellen und Diagramme liegen unter:
+The final tables and plots are located under:
 
 ```text
 results/tables/
 results/plots/
 ```
 
-Typische Ausgaben:
+Typical outputs:
 
 ```text
 results/tables/ingestion_summary.csv
@@ -344,9 +344,9 @@ results/tables/table_7_delay_breakdown.csv
 results/tables/table_8_delivery_ratio.csv
 ```
 
-## Skalierungstests
+## Scaling Tests
 
-Zusätzlich zur Hauptmatrix können Skalierungstests durchgeführt werden:
+In addition to the main test matrix, scaling tests can be performed:
 
 ```text
 500 Clients × 1 Hz
@@ -355,30 +355,30 @@ Zusätzlich zur Hauptmatrix können Skalierungstests durchgeführt werden:
 500 Clients × 20 Hz
 ```
 
-Optional kann auch die Clientzahl erhöht werden:
+Optionally, the number of clients can also be increased:
 
 ```text
 1000 Clients
 2000 Clients
 ```
 
-Dabei gelten Abbruchkriterien:
+The following termination criteria apply:
 
 ```text
-- Errors steigen stark
-- Throughput bleibt deutlich unter Soll
-- Serverprozess stürzt ab
-- Verbindungen können nicht aufgebaut werden
-- CPU ist dauerhaft gesättigt
-- Latenzen steigen massiv
+- Errors increase sharply
+- Throughput remains significantly below the target
+- Server process crashes
+- Connections cannot be established
+- CPU remains continuously saturated
+- Latencies increase significantly
 ```
 
-## Limitationen
+## Limitations
 
-Die HTTP-basierte Variante verwendet HTTP POST für den Ingestion-Pfad und HTTP Long Polling für die Dashboard-Aktualisierung. Sie ist daher keine reine Long-Polling-Implementierung. Das ist methodisch beabsichtigt, weil GPS-Clients Positionsdaten selbst erzeugen und aktiv an den Server senden.
+The HTTP-based variant uses HTTP POST for the ingestion path and HTTP Long Polling for dashboard updates. It is therefore not a pure Long Polling implementation. This is methodologically intentional because GPS clients generate position data themselves and actively send it to the server.
 
-Die Ressourcenmessung betrachtet ausschließlich den Go-Serverprozess. Der Ressourcenbedarf der Client-VM, des Browsers, des Host-Systems, des Hypervisors und des Netzwerks wird nicht als Teil dieser Metrik ausgewertet.
+Resource measurement considers only the Go server process. The resource usage of the client VM, browser, host system, hypervisor, and network is not evaluated as part of this metric.
 
-Die Browser-Paint-Messung verwendet zwei `requestAnimationFrame`-Aufrufe, um näher an den sichtbaren Paint-Zeitpunkt zu kommen. Diese Methode ist eine praktische Annäherung und keine perfekte Messung des wahrgenommenen Benutzerzeitpunkts.
+The browser paint measurement uses two `requestAnimationFrame` calls to approximate the visible paint timestamp more closely. This method is a practical approximation and not a perfect measurement of the user's perceived display time.
 
-Bei WebRTC unreliable-unordered kann Message Loss auftreten. Dies ist Teil der gewählten DataChannel-Semantik und wird separat über Delivery Ratio ausgewiesen.
+With WebRTC unreliable-unordered, message loss may occur. This is part of the selected DataChannel semantics and is reported separately via the delivery ratio.
