@@ -147,6 +147,30 @@ gofmt -w main.go
 go build -o tracking-client main.go
 ```
 
+## Running the communication variants
+
+The server and client can be started with the following commands, depending on the evaluated technology:
+
+```bash
+# HTTP POST + Long Polling baseline
+./tracking-server -technology=http-post -dashboardMode=long-polling -clients=<clients> -hz=<hz> -run=<run> -port=3000
+./tracking-client -technology=http-post -server=http://<server-ip>:3000 -clients=<clients> -duration=5m -hz=<hz> -run=<run> -syncClock=true
+
+# WebSocket
+./tracking-server -technology=websocket -dashboardMode=websocket -clients=<clients> -hz=<hz> -run=<run> -port=3000
+./tracking-client -technology=websocket -server=http://<server-ip>:3000 -clients=<clients> -duration=5m -hz=<hz> -run=<run> -syncClock=true
+
+# WebRTC reliable ordered DataChannel
+./tracking-server -technology=webrtc -dashboardMode=webrtc -dcMode=reliable-ordered -clients=<clients> -hz=<hz> -run=<run> -port=3000
+./tracking-client -technology=webrtc -dcMode=reliable-ordered -server=http://<server-ip>:3000 -clients=<clients> -duration=5m -hz=<hz> -run=<run> -syncClock=true
+
+# WebRTC unreliable unordered DataChannel
+./tracking-server -technology=webrtc -dashboardMode=webrtc -dcMode=unreliable-unordered -clients=<clients> -hz=<hz> -run=<run> -port=3000
+./tracking-client -technology=webrtc -dcMode=unreliable-unordered -server=http://<server-ip>:3000 -clients=<clients> -duration=5m -hz=<hz> -run=<run> -syncClock=true
+```
+
+Replace <server-ip>, <clients>, <hz>, and <run> with the desired test configuration.
+
 ## Dashboard URLs
 
 | Variant | Dashboard URL |
