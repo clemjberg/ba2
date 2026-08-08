@@ -66,6 +66,38 @@ ba2-live-tracking/
     └── plots/
 ```
 
+## Creating the full project directory structure
+
+Use the following commands to create the complete directory structure expected by the project:
+
+```bash
+mkdir -p ba2-live-tracking
+cd ~/ba2-live-tracking
+
+# Analysis, scripts, and documentation
+mkdir -p analysis
+mkdir -p scripts
+mkdir -p docs/environment
+
+# Server and client metric output directories
+mkdir -p server/metrics
+mkdir -p client/metrics
+
+# Raw data
+mkdir -p data/raw/server/ingestion
+mkdir -p data/raw/server/visualization
+mkdir -p data/raw/server/resources
+mkdir -p data/raw/client/load
+
+# Cleaned data
+mkdir -p data/cleaned
+
+# Result outputs
+mkdir -p results/tables
+mkdir -p results/plots
+```
+
+
 ## Installation on Both VMs
 
 ```bash
