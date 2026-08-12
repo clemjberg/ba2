@@ -377,7 +377,7 @@ By default, the scripts use the following rules:
 
 ## Result Files
 
-The final tables and plots are located under:
+The analysis scripts generate the final tables and plots under:
 
 ```text
 results/tables/
